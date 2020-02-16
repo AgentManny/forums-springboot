@@ -90,8 +90,7 @@ public class CategoryDAL implements ICategoryDAL {
 
     @Override
     public ForumCategory addCategory(String name) {
-        ForumCategory category = new ForumCategory(name.replace(" ", "-").toLowerCase());
-        category.setName(name);
+        ForumCategory category = new ForumCategory(name);
         mongoTemplate.save(category);
         return category;
     }
