@@ -1,29 +1,40 @@
 package gg.manny.forums.forums.forum;
 
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public interface ForumCategory {
+@Getter
+@Document(collection = "categories")
+@RequiredArgsConstructor
+public class ForumCategory {
 
-    /** Returns the category name */
-    String name();
+    /** Returns display name for forum category */
+    @Id @Setter @NonNull private String name;
 
     /** Returns the description of a category */
-    String description();
+    @Setter private String description = "";
 
     /** List all threads included inside a category*/
-    List<ForumThread> threads();
+    private List<ForumThread> threads = new ArrayList<>();
 
     /** Weight of the category which will be sorted on listing */
-    default int weight() {
-        return 0;
-    }
+    @Setter private int weight = -1;
 
     /**
      * Permission node required to view a categories' threads,
-     * if empty, it'll be viewable by anyone including non-registered
+     * if empty or null, it'll be viewable by anyone including non-registered
      * users.
      */
-    default String permission() {
-        return "";
+    @Setter private String permission = "";
+
+    public String getId() {
+        return name.toLowerCase().replace(" ", "-");
     }
 }

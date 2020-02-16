@@ -29,8 +29,8 @@ public class ForumThread {
     /** Title of the thread */
     @Setter @NonNull private String title;
 
-    /** Message that is displayed when viewing the thread */
-    @Setter @NonNull private String message;
+    /** Message (body) that is displayed when viewing the thread */
+    @Setter @NonNull private String body;
 
     /**
      * Timestamp on last modified which is updated
