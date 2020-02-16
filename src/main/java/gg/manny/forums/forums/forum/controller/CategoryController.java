@@ -22,7 +22,7 @@ public class CategoryController {
     private ICategoryDAL categoryDAL;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<ForumCategory> getAllThreads() {
+    public List<ForumCategory> getCategories() {
         return categoryDAL.findAll();
     }
 
@@ -37,8 +37,8 @@ public class CategoryController {
     }
 
     @RequestMapping(value = "/{category}/update/name", method = RequestMethod.GET)
-    public boolean updateDisplayName(@PathVariable String category, @RequestBody String displayName) {
-        return categoryDAL.updateDisplayName(category, displayName);
+    public boolean updateDisplayName(@PathVariable String category, @RequestBody String name) {
+        return categoryDAL.updateDisplayName(category, name);
     }
 
     @RequestMapping(value = "/{category}/update/description", method = RequestMethod.GET)
