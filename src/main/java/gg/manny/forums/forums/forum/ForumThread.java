@@ -43,11 +43,26 @@ public class ForumThread {
      * moderators editing the thread who isn't the creator
      */
     @Setter private UUID lastEditedBy;
-    
-    private int upvotes = 0;
 
-    protected List<ForumThread> replies = new ArrayList<>();
-    private long lastReply = -1;
+    /** Users who have liked the thread which is used for sorting */
+    @Setter private int upvotes = 0;
+
+    /**
+     * Comments posted on parent thread which are visible
+     * when viewing the thread, allows infinite replying as
+     * it allows support to comment on replies
+     *
+     * TODO link to parent thread?
+     **/
+    private List<ForumThread> replies = new ArrayList<>();
+
+    /**
+     * Timestamp on last replied which is updated
+     * when a user replies to the parent thread
+     *
+     * TODO update when a sub-thread is replied to.
+     */
+    @Setter private Long lastReply;
 
     public ForumThread(int id, UUID author, String title) {
         this.id = id;
