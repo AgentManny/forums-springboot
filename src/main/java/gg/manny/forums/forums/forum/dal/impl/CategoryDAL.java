@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -26,19 +27,23 @@ public class CategoryDAL implements ICategoryDAL {
     @Override
     public ForumCategory getCategory(String name) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("_id").is(name));
+        query.addCriteria(Criteria.where("name").is(name));
         return mongoTemplate.findOne(query, ForumCategory.class);
     }
 
     @Override
-    public boolean updateCategory(String name, ForumCategory newCategory) {
-        ForumCategory category = getCategory(name); // Should make sure it isn't null beforehand
-        if (category != null) {
-            category.setName(newCategory.getName());
-            category.setDescription(newCategory.getDescription());
-            category.setPermission(newCategory.getPermission());
-            category.setWeight(newCategory.getWeight());
-            mongoTemplate.save(category);
+    public boolean updateCategory(String categoryName, ForumCategory newCategory) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").is(categoryName));
+
+        ForumCategory category = mongoTemplate.findOne(query, ForumCategory.class);
+        if (category != null && (newCategory.getName().equalsIgnoreCase(category.getName()) || getCategory(newCategory.getName()) != null)) {
+            Update update = new Update();
+            update.set("name", newCategory.getName());
+            update.set("description", newCategory.getDescription());
+            update.set("weight", newCategory.getWeight());
+            update.set("permission", newCategory.getPermission());
+            mongoTemplate.updateFirst(query, update, ForumCategory.class);
             return true;
         }
         return false;
@@ -46,10 +51,14 @@ public class CategoryDAL implements ICategoryDAL {
 
     @Override
     public boolean updateDisplayName(String categoryName, String displayName) {
-        ForumCategory category = getCategory(categoryName);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").is(categoryName));
+
+        ForumCategory category = mongoTemplate.findOne(query, ForumCategory.class);
         if (category != null) {
-            category.setName(displayName);
-            mongoTemplate.save(category);
+            Update update = new Update();
+            update.set("name", displayName);
+            mongoTemplate.updateFirst(query, update, ForumCategory.class);
             return true;
         }
         return false;
@@ -57,10 +66,14 @@ public class CategoryDAL implements ICategoryDAL {
 
     @Override
     public boolean updateDescription(String categoryName, String description) {
-        ForumCategory category = getCategory(categoryName);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").is(categoryName));
+
+        ForumCategory category = mongoTemplate.findOne(query, ForumCategory.class);
         if (category != null) {
-            category.setDescription(description);
-            mongoTemplate.save(category);
+            Update update = new Update();
+            update.set("description", description);
+            mongoTemplate.updateFirst(query, update, ForumCategory.class);
             return true;
         }
         return false;
@@ -68,10 +81,14 @@ public class CategoryDAL implements ICategoryDAL {
 
     @Override
     public boolean updateWeight(String categoryName, int weight) {
-        ForumCategory category = getCategory(categoryName);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").is(categoryName));
+
+        ForumCategory category = mongoTemplate.findOne(query, ForumCategory.class);
         if (category != null) {
-            category.setWeight(weight);
-            mongoTemplate.save(category);
+            Update update = new Update();
+            update.set("weight", weight);
+            mongoTemplate.updateFirst(query, update, ForumCategory.class);
             return true;
         }
         return false;
@@ -79,10 +96,14 @@ public class CategoryDAL implements ICategoryDAL {
 
     @Override
     public boolean updatePermission(String categoryName, String permission) {
-        ForumCategory category = getCategory(categoryName);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").is(categoryName));
+
+        ForumCategory category = mongoTemplate.findOne(query, ForumCategory.class);
         if (category != null) {
-            category.setPermission(permission);
-            mongoTemplate.save(category);
+            Update update = new Update();
+            update.set("permission", permission);
+            mongoTemplate.updateFirst(query, update, ForumCategory.class);
             return true;
         }
         return false;
@@ -98,7 +119,7 @@ public class CategoryDAL implements ICategoryDAL {
     @Override
     public ForumCategory removeCategory(String name) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("_id").is(name));
+        query.addCriteria(Criteria.where("name").is(name));
         return mongoTemplate.findAndRemove(query, ForumCategory.class);
     }
 

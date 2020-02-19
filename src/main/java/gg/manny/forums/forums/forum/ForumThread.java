@@ -3,7 +3,6 @@ package gg.manny.forums.forums.forum;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -11,11 +10,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
-@Document
+@Document(collection = "threads")
 public class ForumThread {
 
     /** Generates a unique identifier for each thread */
-    @Id private final int id;
+    private final int id;
 
     /** Timestamp on thread creation, this cannot be altered */
     private final long timestamp = System.currentTimeMillis();
