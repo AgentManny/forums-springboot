@@ -1,4 +1,4 @@
-package gg.manny.forums.forums.role;
+package gg.manny.forums.role;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
