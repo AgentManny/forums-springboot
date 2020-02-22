@@ -1,7 +1,7 @@
-package gg.manny.forums.forums.forum.controller;
+package gg.manny.forums.forum.controller;
 
-import gg.manny.forums.forums.forum.ForumCategory;
-import gg.manny.forums.forums.forum.dal.ICategoryDAL;
+import gg.manny.forums.forum.ForumCategory;
+import gg.manny.forums.forum.dal.ICategoryDAL;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

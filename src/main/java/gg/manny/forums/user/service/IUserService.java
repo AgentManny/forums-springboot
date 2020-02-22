@@ -1,4 +1,4 @@
-package gg.manny.forums.forums.user.service;
+package gg.manny.forums.user.service;
 
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,7 @@
-package gg.manny.forums.forums.forum.dal;
+package gg.manny.forums.forum.dal;
 
-import gg.manny.forums.forums.forum.ForumCategory;
-import gg.manny.forums.forums.forum.ForumThread;
+import gg.manny.forums.forum.ForumCategory;
+import gg.manny.forums.forum.ForumThread;
 
 import java.util.List;
 

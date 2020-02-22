@@ -1,6 +1,6 @@
-package gg.manny.forums.forums;
+package gg.manny.forums.forum;
 
-import gg.manny.forums.forums.forum.ForumThread;
+import gg.manny.forums.forum.ForumThread;
 
 import java.util.HashMap;
 import java.util.Map;

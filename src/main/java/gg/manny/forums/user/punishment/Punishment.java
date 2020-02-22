@@ -1,29 +1,26 @@
-package gg.manny.forums.forums.user.grant;
+package gg.manny.forums.user.punishment;
 
-import gg.manny.forums.forums.role.Role;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.UUID;
 
 @Getter
-@Setter
-public class Grant implements Comparable<Grant> {
+public class Punishment {
 
     private final UUID id = UUID.randomUUID();
-    @DBRef private Role role;
+    private String rank;
 
     public String reason;
 
     private UUID issuedBy;
     private long issuedAt = System.currentTimeMillis();
 
-    private Long expiresAt;
+    @Setter private Long expiresAt;
 
-    private String removalReason;
-    private UUID removedBy;
-    private Long removedAt;
+    @Setter private String removalReason;
+    @Setter private UUID removedBy;
+    @Setter private Long removedAt;
 
     public boolean isActive() {
         if (removedAt == null) {
@@ -35,10 +32,5 @@ public class Grant implements Comparable<Grant> {
             return true;
         }
         return false;
-    }
-
-    @Override
-    public int compareTo(Grant o) {
-        return Boolean.compare(!this.isActive(), !o.isActive());
     }
 }

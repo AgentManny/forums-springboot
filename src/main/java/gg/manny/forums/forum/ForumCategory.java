@@ -1,4 +1,4 @@
-package gg.manny.forums.forums.forum;
+package gg.manny.forums.forum;
 
 import lombok.Getter;
 import lombok.NonNull;

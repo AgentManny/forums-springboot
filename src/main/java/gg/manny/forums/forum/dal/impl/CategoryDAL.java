@@ -1,8 +1,8 @@
-package gg.manny.forums.forums.forum.dal.impl;
+package gg.manny.forums.forum.dal.impl;
 
-import gg.manny.forums.forums.forum.ForumCategory;
-import gg.manny.forums.forums.forum.ForumThread;
-import gg.manny.forums.forums.forum.dal.ICategoryDAL;
+import gg.manny.forums.forum.ForumCategory;
+import gg.manny.forums.forum.ForumThread;
+import gg.manny.forums.forum.dal.ICategoryDAL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;

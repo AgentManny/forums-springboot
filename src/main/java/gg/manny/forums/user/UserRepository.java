@@ -1,4 +1,4 @@
-package gg.manny.forums.forums.user;
+package gg.manny.forums.user;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

@@ -1,8 +1,8 @@
-package gg.manny.forums.forums.user.security;
+package gg.manny.forums.user.security;
 
-import gg.manny.forums.forums.role.RoleRepository;
-import gg.manny.forums.forums.user.User;
-import gg.manny.forums.forums.user.UserRepository;
+import gg.manny.forums.role.RoleRepository;
+import gg.manny.forums.user.User;
+import gg.manny.forums.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

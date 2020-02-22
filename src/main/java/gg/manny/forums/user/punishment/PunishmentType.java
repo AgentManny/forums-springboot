@@ -1,4 +1,4 @@
-package gg.manny.forums.forums.user.punishment;
+package gg.manny.forums.user.punishment;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

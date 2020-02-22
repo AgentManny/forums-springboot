@@ -1,11 +1,11 @@
-package gg.manny.forums.forums.user.service.impl;
+package gg.manny.forums.user.service.impl;
 
-import gg.manny.forums.forums.role.Role;
-import gg.manny.forums.forums.role.RoleRepository;
-import gg.manny.forums.forums.user.User;
-import gg.manny.forums.forums.user.UserRepository;
-import gg.manny.forums.forums.user.grant.Grant;
-import gg.manny.forums.forums.user.service.IUserService;
+import gg.manny.forums.role.Role;
+import gg.manny.forums.role.RoleRepository;
+import gg.manny.forums.user.User;
+import gg.manny.forums.user.UserRepository;
+import gg.manny.forums.user.grant.Grant;
+import gg.manny.forums.user.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
