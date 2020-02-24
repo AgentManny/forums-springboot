@@ -13,6 +13,17 @@ body {
     background-color: #f5f5f5;
 }
 
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #282828;
+    color: #cdcdcd;
+    height: 50px;
+    text-align: center;
+}
+
 .form-signin {
     width: 100%;
     max-width: 330px;
@@ -22,6 +33,7 @@ body {
 .form-signin .checkbox {
     font-weight: 400;
 }
+
 .form-signin .form-control {
     position: relative;
     box-sizing: border-box;

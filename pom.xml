@@ -68,6 +68,12 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>5.12.0</version>
+        </dependency>
+
         <!-- Other dependencies -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
