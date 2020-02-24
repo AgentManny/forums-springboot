@@ -21,7 +21,7 @@ public class Role implements Comparable<Role> {
     @Autowired private MongoTemplate mongoTemplate;
 
     /** Returns the id of a role, it doesn't include spaces or capitalization **/
-    @Id @NonNull private String id;
+    @Id @NonNull @Setter private String id;
 
     /** Returns the display name of a role */
     @Indexed(unique = true, direction = IndexDirection.DESCENDING)

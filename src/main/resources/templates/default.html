@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width = device-width, initial-scale = 1">
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Example</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+    <img src="img/logo.png" width="45" alt="" class="d-inline-block mr-2">
+    <a href="#" class="navbar-brand mr-3">
+        <span class="text-uppercase font-weight-bold">Example Website</span>
+    </a>
+
+    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/forums">
+                    Forums
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/staff">Staff</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/support">Support</a>
+            </li>
+        </ul>
+        <a class="nav-item" th:if="${currentUser == null}">
+            <a class="nav-link" th:href="@{/login}">Login</a>
+            <a class="nav-link" th:href="@{/register}">Register</a>
+        </a>
+        <li class="nav-item" th:if="${currentUser}">
+            <a class="nav-link" th:text="${fullName}"></a>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+            </form>
+        </li>
+    </div>
+</nav>
+
+<div class="container">
+    <div layout:fragment="content"></div>
+</div>
+<!-- /.container -->
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
