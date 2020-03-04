@@ -75,6 +75,24 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
     }
 
+    /**
+     * Creating registered users for the first time
+     *
+     * @param user User to register
+     */
+    public void createUser(User user) {
+        user.setId(UUID.randomUUID());
+
+        user.setDateJoined(new Date(System.currentTimeMillis()));
+        user.setDateLastSeen(new Date(System.currentTimeMillis()));
+
+        user.setPassword(encoder.encode(user.getPassword()));
+
+        user.setRegistered(true); // todo add confirmations by email
+
+        userRepository.save(user);
+    }
+
     private List<GrantedAuthority> getUserAuthority(List<Grant> grants) {
         List<GrantedAuthority> permissions = new ArrayList<>();
         for (Grant grant : grants) {

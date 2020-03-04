@@ -16,25 +16,45 @@ import java.util.*;
 @Document(collection = "users")
 public class User {
 
+    /** Returns the unique identifer for a user **/
     @Setter @Id @NonNull private UUID id;
-    @Setter private String name;
 
+    /** Returns the unique name of a user */
+    @Getter @Setter private String username;
+
+    /** Returns the email address of a user */
     @Indexed(unique = true, direction = IndexDirection.DESCENDING)
-    private String email;
-    @Setter private String password;
+    @Getter @Setter private String email;
 
+    /** Returns an encrpyted (hash + salted) password  */
+    @Getter @Setter private String password;
+
+    /** Returns whether a user is registered or not */
     @Setter private boolean registered = false;
 
+    /** Returns all existing grants of a user including inactives one */
     private List<Grant> grants = new ArrayList<>();
+
+    /** Returns all existing punishments of a user including inactives for historical purposes */
     private List<Punishment> punishments = new ArrayList<>();
 
+    /** Returns the date upon the first registration of a user */
     @Setter private Date dateJoined;
-    @Setter private Date dateLastSeen;
 
+    /** Returns the date upon the last login of a user */
+    @Setter private Date dateLastSeen; // todo add a system to check if they are online or not
+
+    /** Returns a list of all */
     private Set<String> ipAddresses = new HashSet<>();
+
+    private Map<String, Object> metaData = new HashMap<>(); // todo future use for external systems storing data
 
     public void addGrant(Grant grant) {
         grants.add(grant);
     }
+
+    // Todo get their active role -- or default when not active
+    // todo add their active grant and prevent inactive (temporarily ones) from being active
+
 
 }
