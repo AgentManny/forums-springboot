@@ -28,6 +28,10 @@ public class Application {
     public Application() {
     }
 
+    public void test() {
+
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
 

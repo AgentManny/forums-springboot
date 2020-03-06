@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -125,6 +124,6 @@ public class CategoryDAL implements ICategoryDAL {
 
     @Override
     public ForumThread addThread(ForumCategory category, ForumThread thread) {
-        throw new NotImplementedException();
-    }
+        throw new NullPointerException();
+    } // todo compataibility issues
 }
