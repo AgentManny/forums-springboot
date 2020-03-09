@@ -24,6 +24,9 @@
 
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
+        <div class="g-recaptcha col-sm-5"
+             th:attr="data-sitekey=${@captchaSettings.getSite()}"></div>
+        <span id="captchaError" class="alert alert-danger col-sm-4" style="display:none"></span>
     </form>
     <form class="form-signin" th:action="@{/login}" method="get">
         <button class="btn btn-md btn-success btn-block" type="Submit">Sign In</button>

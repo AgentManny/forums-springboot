@@ -1,7 +1,7 @@
 package gg.manny.forums.web.controller;
 
 import gg.manny.forums.user.User;
-import gg.manny.forums.user.security.CustomUserDetailsService;
+import gg.manny.forums.user.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +17,7 @@ import javax.validation.Valid;
 public class LoginController {
 
     @Autowired
-    private CustomUserDetailsService userService;
+    private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login() {

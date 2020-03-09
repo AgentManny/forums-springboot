@@ -1,6 +1,6 @@
 package gg.manny.forums.web.config;
 
-import gg.manny.forums.user.security.CustomUserDetailsService;
+import gg.manny.forums.user.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public UserDetailsService mongoUserDetails() {
-        return new CustomUserDetailsService();
+        return new UserService();
     }
 
     @Override
