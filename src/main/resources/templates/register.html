@@ -8,7 +8,7 @@
 
 <div layout:fragment="content">
     <form class="form-signin" th:action="@{/register}" method="post">
-        <h1 class="h3 mb-3 font-weight-normal">Register Here</h1>
+        <h1 class="h3 mb-3 font-weight-normal align-content-center">Create an account</h1>
         <div th:if="${param.error}">
             Invalid email and password.
         </div>
@@ -16,20 +16,12 @@
             You have been logged out.
         </div>
 
-        <input type="email" name="email" class="form-control" placeholder="Email" required="" />
-
-        <input type="username" name="username" class="form-control" placeholder="Username" required="" />
-
-        <input type="password" name="password" class="form-control" placeholder="Password" required="" />
-
+        <input type="email" class="form-control" id="email" name="login" placeholder="email">
+        <input type="text" class="form-control" id="username" name="login" placeholder="username">
+        <input type="password" class="form-control" id="password" name="login" placeholder="password">
 
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
-        <div class="g-recaptcha col-sm-5"
-             th:attr="data-sitekey=${@captchaSettings.getSite()}"></div>
-        <span id="captchaError" class="alert alert-danger col-sm-4" style="display:none"></span>
-    </form>
-    <form class="form-signin" th:action="@{/login}" method="get">
-        <button class="btn btn-md btn-success btn-block" type="Submit">Sign In</button>
+        <a>Already have an account? </a><a class="text-info" th:href="@{/login}">Sign in</a>
     </form>
 </div>
 </body>

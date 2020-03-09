@@ -8,7 +8,7 @@
 <div layout:fragment="content">
     <form class="form-signin" th:action="@{/login}" method="post">
         <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72" />
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        <h1 class="h3 mb-3 font-weight-normal">Please signl in</h1>
         <div class="alert" th:if="${param.error}">
             Invalid email and password.
         </div>
@@ -20,9 +20,7 @@
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="" />
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
-    <form class="form-signin" th:action="@{/register}" method="get">
-        <button class="btn btn-md btn-success btn-block" type="Submit">Register</button>
+        <a class="text-primary align-content-center" th:href="@{/register}">Register Here</a>
     </form>
 </div>
 </body>
