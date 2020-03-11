@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+<head>
+    <title>Login</title>
+</head>
+<body class="text-center">
+<div layout:fragment="content">
+    <div class="container">
+        <div class="alert alert-danger">
+            <span th:text="${status}"></span>
+            <span>: Page</span>
+            <span th:text="${error}"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
