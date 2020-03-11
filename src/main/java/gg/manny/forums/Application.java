@@ -38,6 +38,14 @@ public class Application {
         instance = new Application();
     }
 
+    public static void debug(String title, String... messages) {
+        System.out.println(" - - - - - - - DEBUGGING: " + title + " - - - - - - - - - ");
+        for (String message : messages) {
+            System.out.println(" - -> " + message);
+        }
+        System.out.println(" - - - - - - - - - END OF DEBUG - - - - - - - - - - - ");
+    }
+
     @Bean
     CommandLineRunner init(RoleRepository roleRepository) {
 

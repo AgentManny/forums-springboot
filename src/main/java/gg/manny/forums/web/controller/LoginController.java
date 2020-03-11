@@ -1,5 +1,6 @@
 package gg.manny.forums.web.controller;
 
+import gg.manny.forums.Application;
 import gg.manny.forums.user.User;
 import gg.manny.forums.user.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,7 +40,7 @@ public class LoginController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        User userExists = userService.findUserByEmail(user.getEmail());
+        User userExists = userService.findUserByName(user.getUsername());
         if (userExists != null) {
             bindingResult
                     .rejectValue("email", "error.user",
@@ -60,7 +62,7 @@ public class LoginController {
     public ModelAndView dashboard() {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        User user = userService.findUserByEmail(auth.getName());
+        User user = userService.findUserByName(auth.getName());
         modelAndView.addObject("currentUser", user);
         modelAndView.addObject("email", "Welcome " + user.getEmail());
         modelAndView.addObject("adminMessage", "Content Available Only for Users with Admin Role");
