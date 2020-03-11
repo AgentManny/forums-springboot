@@ -1,4 +1,4 @@
-package gg.manny.forums.user.service.impl;
+package gg.manny.forums.user.service;
 
 import gg.manny.forums.role.Role;
 import gg.manny.forums.role.RoleRepository;
