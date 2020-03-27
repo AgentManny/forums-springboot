@@ -6,7 +6,6 @@ import gg.manny.forums.user.User;
 import gg.manny.forums.user.UserRepository;
 import gg.manny.forums.user.grant.Grant;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -60,7 +59,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userRepository.findByUsername(username);
+        User user = username.contains("@") ? userRepository.findByEmail(username) : userRepository.findByUsername(username);
         if(user != null) {
             List<GrantedAuthority> authorities = getUserAuthority(user.getGrants());
             return buildUserForAuthentication(user, authorities);
