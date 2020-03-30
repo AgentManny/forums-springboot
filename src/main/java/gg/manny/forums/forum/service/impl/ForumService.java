@@ -26,6 +26,7 @@ public class ForumService implements IForumService {
 
     @Override
     public Forum addForum(Forum forum) {
-        return mongoTemplate.insert(forum);
+
+        return mongoTemplate.save(forum);
     }
 }

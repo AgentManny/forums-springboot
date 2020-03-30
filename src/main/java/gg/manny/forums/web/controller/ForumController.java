@@ -40,7 +40,7 @@ public class ForumController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/forums/create/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/forums/create", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid Forum forum, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
         Forum forumExists = forumService.getForum(forum.getName());
@@ -53,6 +53,7 @@ public class ForumController {
             modelAndView.setViewName("/forums/create");
         } else {
             forumService.addForum(forum);
+            System.out.println("Created forum");
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.setViewName("forums");
         }
