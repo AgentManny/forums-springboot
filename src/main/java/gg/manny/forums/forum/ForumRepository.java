@@ -6,13 +6,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ForumRepository extends MongoRepository<ForumCategory, String> {
+public interface ForumRepository extends MongoRepository<Forum, String> {
 
-    /** List all categories */
-    List<ForumCategory> findAll();
+    /** List all forums */
+    List<Forum> findAll();
 
-    /** Retrieves a category by it's name, with it outputting */
-    ForumCategory getByName(String name);
+    /** Retrieves a section by it's name, with it outputting */
+    Forum getByName(String name);
 
 
 }

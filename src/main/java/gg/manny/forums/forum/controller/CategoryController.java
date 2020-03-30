@@ -1,7 +1,7 @@
 package gg.manny.forums.forum.controller;
 
 import gg.manny.forums.forum.ForumCategory;
-import gg.manny.forums.forum.dal.ICategoryDAL;
+import gg.manny.forums.forum.service.ICategoryService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class CategoryController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
-    private ICategoryDAL categoryDAL;
+    private ICategoryService categoryDAL;
 
     @RequestMapping(method = RequestMethod.GET)
     public List<ForumCategory> getCategories() {
