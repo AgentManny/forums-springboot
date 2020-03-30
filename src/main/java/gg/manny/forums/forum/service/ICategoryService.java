@@ -1,11 +1,11 @@
-package gg.manny.forums.forum.dal;
+package gg.manny.forums.forum.service;
 
 import gg.manny.forums.forum.ForumCategory;
 import gg.manny.forums.forum.ForumThread;
 
 import java.util.List;
 
-public interface ICategoryDAL {
+public interface ICategoryService {
 
     /** List all categories */
     List<ForumCategory> findAll();

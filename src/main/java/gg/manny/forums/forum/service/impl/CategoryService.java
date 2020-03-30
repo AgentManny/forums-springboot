@@ -1,8 +1,8 @@
-package gg.manny.forums.forum.dal.impl;
+package gg.manny.forums.forum.service.impl;
 
 import gg.manny.forums.forum.ForumCategory;
 import gg.manny.forums.forum.ForumThread;
-import gg.manny.forums.forum.dal.ICategoryDAL;
+import gg.manny.forums.forum.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CategoryDAL implements ICategoryDAL {
+public class CategoryService implements ICategoryService {
 
     @Autowired
     private MongoTemplate mongoTemplate;
