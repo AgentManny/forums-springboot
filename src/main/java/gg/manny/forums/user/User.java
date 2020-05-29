@@ -44,8 +44,8 @@ public class User {
     /** Returns the date upon the last login of a user */
     @Setter private Date dateLastSeen; // todo add a system to check if they are online or not
 
-    /** Returns a list of all */
-    private Set<String> ipAddresses = new HashSet<>();
+    /** Returns a map of ip addresses and date used */
+    private Map<Date, String> ipAddresses = new HashMap<>();
 
     private Map<String, Object> metaData = new HashMap<>(); // todo future use for external systems storing data
 
