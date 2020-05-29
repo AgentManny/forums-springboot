@@ -14,16 +14,16 @@ import java.util.UUID;
 public class ForumThread {
 
     /** Generates a unique identifier for each thread */
-    private final int id;
+    @NonNull private int id;
 
     /** Timestamp on thread creation, this cannot be altered */
-    private final long timestamp = System.currentTimeMillis();
+    @NonNull private long timestamp = System.currentTimeMillis();
 
     /**
      * Creator's identifier {@link UUID} which links them to
      * to a thread, it cannot be null.
      */
-    private final UUID author;
+    @NonNull private UUID author;
 
     /** Title of the thread */
     @Setter @NonNull private String title;
@@ -74,6 +74,10 @@ public class ForumThread {
         this.id = id;
 
         this.author = author;
+    }
+
+    public ForumThread() {
+
     }
 
 
