@@ -2,13 +2,72 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
 <head>
-    Example Welcome Dashboard</title>
+
 </head>
 <body>
 <div layout:fragment="content">
-    <h1>Welcome! Test</h1>
+    <div class="container">
+        <div class="status-bar">
+            <div class="row align-items-center">
+                <div class="col-lg-4">
+                    <div class="social-item">
+                        <div class="social-icon">
+                            <i class="fa fa-bullhorn fa-fw"></i>
+                        </div>
+                        <div class="social-content">
+                            <div class="social-title">We're recruiting staff!</div>
+                            <a class="social-meta" href="https://discord.gg/gRmFakA">Apply here</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="server-status">
+                        There are ${online} players online
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="social-item">
+                        <div class="social-icon">
+                            <i class="fab fa-discord fa-fw"></i>
+                        </div>
+                        <div class="social-content">
+                            <div class="social-title">Join our discord</div>
+                            <a class="social-meta" href="https://discord.gg/gRmFakA">30 members</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:if="${announcements != null}">
+        <tr th:each="announcement : ${announcements}">
+            <div class="card card-news">
+                <div>
+                    <div class="news-avatar">
+                        <img th:src="@{'https://crafatar.com/renders/body/' + ${announcement.author.id.toString()} + '?overlay'}">
+                    </div>
+                    <div class="news-content">
+                        <div class="card-header">
+                            <td th:text="${announcement.title}"></td>
+                            <div class="card-subheader">
+                                by </td> <a th:href="@{'/player/' + ${announcement.author.username}}" th:text="${announcement.author.username}"></a>
+                                &bull;
+                                <time th:datetime="${announcement.timestamp}" data-format="ago" data-toggle="tooltip"></time>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="content" th:utext="${announcement.formattedBody}">
 
-    <p>Click <a th:href="@{/dashboard}">here</a> to see a greeting.</p>
+                            </div>
+                            <div class="fade-effect"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary btn-sm btn-block" th:href="${announcement.getFriendlyUrl()}">READ MORE...</a>
+                </div>
+            </div>
+    </div>
 </div>
 </body>
 </html>

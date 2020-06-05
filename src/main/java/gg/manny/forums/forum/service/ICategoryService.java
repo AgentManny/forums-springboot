@@ -34,15 +34,6 @@ public interface ICategoryService {
     boolean updatePermission(String category, String permission);
 
     /**
-     * Add a new category by a display name which automatically
-     * converts into a unique identifier (replaces the spaces to dashes and is lowercase)
-     *
-     * @param name Name of the new category
-     * @return Category created
-     */
-    ForumCategory addCategory(String name);
-
-    /**
      * Remove a category by it's identifier
      *
      * @param name Unique identifier

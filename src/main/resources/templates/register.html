@@ -7,29 +7,34 @@
 <body>
 
 <div layout:fragment="content">
-    <form class="form-signin" th:action="@{/register}" method="post">
-        <h1 class="h3 mb-3 font-weight-normal align-content-center">Create an account</h1>
-        <div th:if="${param.error}">
-            Invalid email and password.
-        </div>
-        <div th:if="${param.logout}" class="alert-success">
-            You have been logged out.
-        </div>
+    <div class="heading">
+        Create an account
+    </div>
+    <div class="centered-card text-center">
+        <form class="form-signin" th:action="@{/register}" method="post">
+            <h2><span>REGISTER</span></h2>
 
-        <label for="inputEmail" class="sr-only">Email</label>
-        <input type="text" name="email" id="inputEmail" class="form-control" placeholder="Email" required=""/>
+            <div class="form-group">
+                <label for="inputEmail" class="sr-only">Email</label>
+                <input type="text" name="email" id="inputEmail" class="form-control" placeholder="Email" required=""/>
+            </div>
+            <div class="form-group mt-2">
+                <label for="inputUsername" class="sr-only">Username</label>
+                <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required=""/>
+            </div>
+            <div class="form-group mt-2">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required=""/>
+            </div>
 
-        <label for="inputUsername" class="sr-only">Username</label>
-        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="Username" required=""/>
-
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required=""/>
-
-        <form class="form-signin" th:action="@{/login}" method="get">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
-            <a>Already have an account? </a><a class="text-info" th:href="@{/login}">Sign in</a>
+            <form class="form-signin" th:action="@{/login}" method="get">
+                <div><button type="submit" class="btn btn-primary mt-2">Register</button></div>
+                <div class="mt-2">
+                    <a>Already have an account? </a><a class="text-info" th:href="@{/login}">Sign in</a>
+                </div>
+            </form>
         </form>
-    </form>
+    </div>
 </div>
 </body>
 </html>

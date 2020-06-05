@@ -5,6 +5,8 @@ import com.google.gson.GsonBuilder;
 import gg.manny.forums.role.Role;
 import gg.manny.forums.role.RoleRepository;
 import lombok.Getter;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +19,9 @@ import java.util.Random;
 public class Application {
 
     public static final Random RANDOM = new Random();
+
+    public static final Parser MARKDOWN_PARSER = Parser.builder().build();
+    public static final HtmlRenderer MARKDOWN_RENDERER = HtmlRenderer.builder().build();
 
     public static final Gson GSON = new GsonBuilder()
             .serializeNulls()
@@ -50,6 +55,7 @@ public class Application {
     CommandLineRunner init(RoleRepository roleRepository) {
 
         return args -> {
+
             if (!roleRepository.findById("default").isPresent()) {
                 Role userRole = new Role();
                 userRole.setId("default");

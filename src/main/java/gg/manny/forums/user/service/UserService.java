@@ -22,8 +22,6 @@ import java.util.UUID;
 @Service
 public class UserService implements UserDetailsService {
 
-    public static final UUID TEST_UUID = UUID.fromString("2f6f44cf-19a2-442a-944b-ede88be55651");
-
     @Autowired private UserRepository userRepository;
     @Autowired private RoleRepository roleRepository;
 
@@ -44,7 +42,6 @@ public class UserService implements UserDetailsService {
      */
     public void createUser(User user) {
         user.setId(UUID.randomUUID());
-
         user.setDateJoined(new Date(System.currentTimeMillis()));
         user.setDateLastSeen(new Date(System.currentTimeMillis()));
 
@@ -55,12 +52,11 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         User user = username.contains("@") ? userRepository.findByEmail(username) : userRepository.findByUsername(username);
         if(user != null) {
+            System.out.println("USER FROUND" + user.getUsername());
             List<GrantedAuthority> authorities = getUserAuthority(user.getGrants());
             return buildUserForAuthentication(user, authorities);
         } else {

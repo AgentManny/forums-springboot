@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+<body>
+
+<div layout:fragment="content">
+    <div class="heading" th:text="${thread.title}"></div>
+
+    <ul class="breadcrumb text-capitalize">
+        <li class="breadcrumb-item">
+            <a href="/forums">
+                <i class="fas fa-home fa-fw"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item">
+            <a th:href="${thread.category.friendlyUrl}" th:text="${thread.category.displayName}"></a>
+        </li>
+        <li class="breadcrumb-item active">
+            <a th:href="${thread.friendlyUrl}" th:text="${thread.title}"></a>
+        </li>
+    </ul>
+
+    <div class="card card-thread">
+        <div class="row">
+            <div class="col-lg-1 col-md-2">
+                <a th:href="@{'/player/' + ${thread.author.username}}">
+                    <img th:src="@{'https://crafatar.com/renders/body/' + ${thread.author.id.toString()} + '?overlay'}">
+                </a>
+            </div>
+            <div class="col">
+                <h3>
+                    <span th:text="${thread.title}"></span>
+                    <div class="upthread" th:classappend="${session.user == null ? 'disabled' : ''}">
+                        <a href="#" th:text="${thread.upvotes}">
+                            <i class="fas fa-arrow-up fa-fw"></i>
+                        </a>
+                    </div>
+
+                    <div class="tagline">
+                        by <a th:href="@{'/player/' + ${thread.author.username}}" th:text="${thread.author.username}"></a>
+                        &bull;
+                        <time th:datetime="${thread.timestamp}" data-format="ago" data-toggle="tooltip"></time>
+                    </div>
+                </h3>
+                <div class="post" th:utext="${thread.formattedBody}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card card-thread-reply" th:classappend="${session.user == null ? 'disabled' : ''}">
+        <div class="thread-reply-avatar">
+            <img th:src="@{'https://crafatar.com/avatars/' + ${thread.author.id.toString()} + '?size=24?overlay'}">
+        </div>
+        <div class="thread-reply-content">
+            <div class="form-group mb-2">
+                <textarea class="form-control"></textarea>
+            </div>
+            <div class="text-right">
+                <button class="btn btn-primary btn-sm">Post</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,14 +1,23 @@
 package gg.manny.forums.forum.controller;
 
+import gg.manny.forums.Application;
+import gg.manny.forums.forum.Forum;
 import gg.manny.forums.forum.ForumCategory;
+import gg.manny.forums.forum.ForumThread;
+import gg.manny.forums.forum.repository.CategoryRepository;
+import gg.manny.forums.forum.repository.ForumRepository;
+import gg.manny.forums.forum.repository.ThreadRepository;
 import gg.manny.forums.forum.service.ICategoryService;
+import gg.manny.forums.user.User;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 @RequestMapping("/api/forum/category")
@@ -21,6 +30,64 @@ public class CategoryController {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     private ICategoryService categoryDAL;
+    @Autowired private ForumRepository forumServie;
+    @Autowired private ThreadRepository threadRepository;
+    @Autowired private CategoryRepository categoryRepository;
+
+
+    // todo remove this debug
+
+    @RequestMapping(value = "/debug/fill", method = RequestMethod.GET)
+    public ForumCategory fillDebug() {
+        Forum mainForum = new Forum();
+        mainForum.setName("The Craft Network");
+        mainForum.setWeight(99);
+
+        ForumCategory announcements = new ForumCategory("announcements", "Announcements", mainForum);
+        announcements.setWeight(99);
+        announcements.setDescription("News, announcements, changes, and more");
+
+        mainForum.getCategories().add(announcements);
+        categoryRepository.save(announcements);
+     //   createThread(announcements, UUID.fromString("2f6f44cf-19a2-442a-944b-ede88be55651"), "This is a title", "**Hello this is manny** Okay example yes big woop __Yes__");
+
+        forumServie.save(mainForum);
+        return announcements;
+    }
+
+    public void createThread(ForumCategory forum, User author, String title, String content) {
+        int id = Application.RANDOM.nextInt(900) + 100;
+        while (!forum.getThreads().isEmpty() && forum.getThreads().contains(String.valueOf(id))) {
+            id++;
+        }
+
+        ForumThread thread = new ForumThread(String.valueOf(id), author, title);
+        thread.setBody(content);
+
+
+        forum.getThreads().add(thread);
+        threadRepository.save(thread); // Adds the thread to global thread collection
+
+        createReply(thread, author, "This is a reply");
+
+        System.out.println("Created thread " + id);
+    }
+
+    public void createReply(ForumThread thread, User author, String content) {
+        AtomicInteger id = new AtomicInteger(Application.RANDOM.nextInt(900) + 100);
+        thread.getReplies().forEach(reply -> {
+            if (Integer.parseInt(reply.getId()) == id.get()) {
+                id.getAndIncrement();
+            }
+        });
+
+        ForumThread reply = new ForumThread(String.valueOf(id.get()), author);
+        reply.setBody(content);
+
+        thread.getReplies().add(reply);
+        System.out.println("Added reply " + id + " for " + thread.getId());
+    }
+
 
     @RequestMapping(method = RequestMethod.GET)
     public List<ForumCategory> getCategories() {
@@ -64,7 +131,7 @@ public class CategoryController {
 
     @RequestMapping(value = "/add/{category}", method = RequestMethod.GET)
     public ForumCategory addCategory(@PathVariable String category) {
-        return categoryDAL.addCategory(category);
+        return null;
     }
 
     @RequestMapping(value = "/remove/{category}", method = RequestMethod.GET)

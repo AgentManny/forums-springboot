@@ -1,14 +1,16 @@
 package gg.manny.forums.forum.service.impl;
 
 import gg.manny.forums.forum.Forum;
+import gg.manny.forums.forum.ForumCategory;
 import gg.manny.forums.forum.service.IForumService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Repository
+@Service
 public class ForumService implements IForumService {
 
     @Autowired
@@ -25,8 +27,18 @@ public class ForumService implements IForumService {
     }
 
     @Override
-    public Forum addForum(Forum forum) {
+    public List<ForumCategory> getSubForums() {
+        List<ForumCategory> categories = new ArrayList<>();
+        for (Forum forum : findAll()) {
+            categories.addAll(forum.getCategories());
+        }
+        return categories;
+    }
 
-        return mongoTemplate.save(forum);
+
+    @Override
+    public Forum addForum(Forum forum) {
+        mongoTemplate.save(forum);
+        return forum;
     }
 }

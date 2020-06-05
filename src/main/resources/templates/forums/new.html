@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+<head>
+    <title>Register</title>
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="heading">
+        NEW POST
+    </div>
+    <ul class="breadcrumb text-capitalize">
+        <li class="breadcrumb-item">
+            <a href="/forums">
+                <i class="fas fa-home fa-fw"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item" th:if="${!id.isEmpty()}">
+            <a th:href="@{'/forums/' + ${id}}" th:text="${id}"></a>
+        </li>
+
+        <li class="breadcrumb-item active">
+            <a th:href="@{/threads/create}">New Post</a>
+        </li>
+    </ul>
+    <div class="card card-body">
+        <form th:action="@{/thread/create}" method="post">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/forums">
+                            Forums
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-group mt-2">
+                <p>
+                    <label class="mt-2" for="forum">Forum:</label>
+                    <select class="form-control" name="forum" id="forum" required>
+                        <option value="" th:selected="${id.isEmpty()}">Select a forum...</option>
+                        <tr th:each="forum : ${forums}">
+                            <option th:value="${forum.displayName}" th:text="${forum.displayName}" th:selected="${forum.id == id}"></option>
+                        </tr>
+                    </select>
+                </p>
+
+                <p>
+                    <label class="mt-2" for="title">Title:</label>
+                    <input type="text" name="title" maxlength="100" class="form-control" required id="title">
+                </p>
+
+                <p>
+                    <label for="body">Content:</label>
+                    <textarea name="body" cols="40" rows="10" maxlength="10000" class="form-control" required id="body"></textarea>
+                </p>
+
+                <button type="submit" class="btn btn-primary mt-2">
+                    Post
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

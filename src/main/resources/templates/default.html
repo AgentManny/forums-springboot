@@ -3,63 +3,120 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width = device-width, initial-scale = 1">
-    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">Example</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">The Craft</title>
 
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+
 </head>
-<body>
+<body id="page-index"><div class="wrapper">
 
+    <div>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="/">TheCraft<span>RIP</span></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent">
+                    <i class="fas fa-bars fa-fw"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item" th:classappend="${#httpServletRequest.requestURI == '/' ? 'active':''}">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item" th:classappend="${#httpServletRequest.requestURI.startsWith('/forums') || #httpServletRequest.requestURI.startsWith('/thread') ? 'active':''}">
+                            <a class="nav-link" href="/forums">Forums</a>
+                        </li>
+                        <li class="nav-item" th:classappend="${#httpServletRequest.requestURI == '/leaderboards' ? 'active':''}">
+                            <a class="nav-link" href="/leaderboards">Leaderboards</a>
+                        </li>
+                        <li class="nav-item" th:classappend="${#httpServletRequest.requestURI == '/support' ? 'active':''}">
+                            <a class="nav-link" href="/support">Support</a>
+                        </li>
+                        <li class="nav-item" th:classappend="${#httpServletRequest.requestURI == '/staff' ? 'active':''}">
+                            <a class="nav-link" href="/staff">Staff</a>
+                        </li>
+                        <li class="nav-item" th:classappend="${#httpServletRequest.requestURI == '/famous' ? 'active':''}">
+                            <a class="nav-link" href="/famous/">Famous</a>
+                        </li>
+                        <li class="nav-item store-item">
+                            <a class="nav-link" href="https://store.thecraft.rip"><i class="fas fa-shopping-basket fa-fw"></i> Store</a>
+                        </li>
+                        <li class="nav-item search-item">
+                            <a class="nav-link" href="#" id="button-searchPlayer"><i class="fas fa-search fa-fw"></i></a>
+                        </li>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+                        <li class="nav-item avatar">
+                            <a class="nav-link" th:if="${session.user} != null" th:href="@{'/player/' + ${session.user.username}}" id="button-user">
+                                <img th:src="@{'https://crafatar.com/avatars/' + ${session.user.id.toString()} + '?size=22&overlay'}"> <!-- Add user profile or steve -->
+                            </a>
+                            <a class="nav-link" th:if="${session.user} == null" href="/login" id="button-login">
+                                Login
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
-    <a th:href="@{/}" class="navbar-brand mr-3">
-        <span class="text-uppercase font-weight-bold">Example Website</span>
-    </a>
-
-    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/forums">
-                    Forums
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/staff">Staff</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/support">Support</a>
-            </li>
-        </ul>
-        <a class="nav-item" sec:authorize="isAuthenticated()">
-            <span th:text ="${#authentication.getName()}"></span>
-            <a class="nav-link" th:href="@{/logout}">Logout</a>
-        </a>
-        <a class="nav-item" sec:authorize="!isAuthenticated()">
-            <a class="nav-link" th:href="@{/login}">Login</a>
-            <a class="nav-link" th:href="@{/register}">Register</a>
-        </a>
+        <div class="modal fade" id="modal-searchPlayer" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <input type="text" class="form-control" id="input-searchPlayer" placeholder="Search player...">
+                        <div class="dropdown" id="dropdown-searchPlayer">
+                            <span id="dropdown-toggle"></span>
+                            <div class="dropdown-menu">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</nav>
+
+    <div class="header" th:if="${#httpServletRequest.requestURI == '/'}">
+        <div class="container">
+            <img class="header-logo" th:src="@{/img/logo.png}">
+            <h1>
+                <div class="subtitle">
+                    Fight friends, play events and have fun
+                </div>
+            </h1>
+        </div>
+    </div>
 
 
-<div class="container">
-    <div layout:fragment="content"></div>
-</div>
-<!-- /.container -->
+    <div class="container">
+        <div layout:fragment="content"></div>
+    </div>
+    <!-- /.container -->
 
-<div class="footer">
-    <p>Copyright</p>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <footer class="footer">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <img th:src="@{/img/logo.png}">
+                    <a href="https://discord.gg/gRmFakA"><i class="fab fa-discord"></i></a>
+                    <a href="https://t.me/thecraftrip"><i class="fab fa-telegram"></i></a>
+                    <a href="https://twitter.com/TheCraftRIP"><i class="fab fa-twitter"></i></a>
+                </div>
+                <div class="col-md-6">
+                    <ul>
+                        <li><a th:href="@{/terms}">Terms and Conditions</a></li>
+                        <li><a th:href="@{/privacy}">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/popper.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/scripts.js}"></script>
 </body>
 </html>

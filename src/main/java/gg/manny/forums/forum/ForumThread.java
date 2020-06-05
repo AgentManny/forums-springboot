@@ -1,20 +1,34 @@
 package gg.manny.forums.forum;
 
+import gg.manny.forums.Application;
+import gg.manny.forums.user.User;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Setter;
+import org.commonmark.node.Node;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
+@NoArgsConstructor
 @Document(collection = "threads")
 public class ForumThread {
 
+    /** Gets the location of thread, shouldn't be stored **/
+    @NonNull @Setter @Transient private String forum;
+
+    /** Gets the location of thread **/
+    @NonNull @Setter @DBRef private ForumCategory category;
+
+
     /** Generates a unique identifier for each thread */
-    @NonNull private int id;
+    @NonNull @Setter private String id;
 
     /** Timestamp on thread creation, this cannot be altered */
     @NonNull private long timestamp = System.currentTimeMillis();
@@ -23,7 +37,7 @@ public class ForumThread {
      * Creator's identifier {@link UUID} which links them to
      * to a thread, it cannot be null.
      */
-    @NonNull private UUID author;
+    @NonNull @Setter @DBRef private User author;
 
     /** Title of the thread */
     @Setter @NonNull private String title;
@@ -53,7 +67,7 @@ public class ForumThread {
      *
      * TODO link to parent thread?
      **/
-    private List<ForumThread> replies = new ArrayList<>();
+    private List<ForumThread> replies = new LinkedList<>(); // Changed to link because it's in order
 
     /**
      * Timestamp on last replied which is updated
@@ -61,24 +75,31 @@ public class ForumThread {
      *
      * TODO update when a sub-thread is replied to.
      */
-    @Setter private Long lastReply;
+    @Setter @DBRef private ForumThread lastReply;
 
-    public ForumThread(int id, UUID author, String title) {
+    public ForumThread(String id, User author, String title) {
         this.id = id;
         this.title = title;
-
         this.author = author;
     }
 
-    public ForumThread(int id, UUID author) {
+    public ForumThread(String id, User author) {
         this.id = id;
-
         this.author = author;
     }
 
-    public ForumThread() {
-
+    public String getFriendlyUrl() { // Prevents allowing spaces and stuff
+        return "/thread/" + this.id + "/" + this.title.toLowerCase()
+                .replace("/[^a-z0-9]+/g", "-")
+                .replace("/^-+|-+$/g", "-")
+                .replace("/^-+|-+$/g", "")
+                .replace(" ", "-");
     }
 
-
+    // markdown support
+    // todo only allow people with certain permissions to format markdown
+    public String getFormattedBody() {
+        Node body = Application.MARKDOWN_PARSER.parse(this.body);
+        return Application.MARKDOWN_RENDERER.render(body);
+    }
 }

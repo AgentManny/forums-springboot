@@ -1,6 +1,6 @@
 package gg.manny.forums.web.config;
 
-import gg.manny.forums.user.service.UserService;
+import gg.manny.forums.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +16,7 @@ import java.io.IOException;
 public class CustomizeAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -24,7 +24,10 @@ public class CustomizeAuthenticationSuccessHandler implements AuthenticationSucc
             throws IOException, ServletException {
         //set our response to OK status
         response.setStatus(HttpServletResponse.SC_OK);
-        response.sendRedirect("/");
+        response.sendRedirect(request.getAttribute("redirect") == null ? "/" : (String) request.getAttribute("redirect"));
+
+        request.getSession().setAttribute("user", userRepository.findByUsername(authentication.getName()));
+
         for (GrantedAuthority auth : authentication.getAuthorities()) {
             /*if ("ADMIN".equals(auth.getAuthority())) {
                 response.sendRedirect("/dashboard");

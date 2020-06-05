@@ -36,9 +36,9 @@ public class CategoryService implements ICategoryService {
         query.addCriteria(Criteria.where("name").is(categoryName));
 
         ForumCategory category = mongoTemplate.findOne(query, ForumCategory.class);
-        if (category != null && (newCategory.getName().equalsIgnoreCase(category.getName()) || getCategory(newCategory.getName()) != null)) {
+        if (category != null && (newCategory.getDisplayName().equalsIgnoreCase(category.getDisplayName()) || getCategory(newCategory.getDisplayName()) != null)) {
             Update update = new Update();
-            update.set("name", newCategory.getName());
+            update.set("name", newCategory.getDisplayName());
             update.set("description", newCategory.getDescription());
             update.set("weight", newCategory.getWeight());
             update.set("permission", newCategory.getPermission());
@@ -108,12 +108,6 @@ public class CategoryService implements ICategoryService {
         return false;
     }
 
-    @Override
-    public ForumCategory addCategory(String name) {
-        ForumCategory category = new ForumCategory(name);
-        mongoTemplate.save(category);
-        return category;
-    }
 
     @Override
     public ForumCategory removeCategory(String name) {

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
+<body>
+
+<div layout:fragment="content">
+    <div class="heading" th:text="${forum.displayName}"></div>
+
+    <ul class="breadcrumb text-capitalize">
+        <li class="breadcrumb-item">
+            <a href="/forums">
+                <i class="fas fa-home fa-fw"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item active">
+            <a th:href="${forum.friendlyUrl}" th:text="${forum.displayName}"></a>
+        </li>
+
+        <div class="navbar-nav ml-auto nav-item">
+            <a href="/thread/create" class="btn btn-success">
+                New Post
+            </a>
+        </div>
+    </ul>
+
+    <div class="card card-forum" th:if="${!forum.getThreads().isEmpty()}">
+        <table class="table table-forum table-responsive">
+            <thead>
+            <tr>
+                <th th:text="${forum.displayName}"></th>
+                <th>Threads</th>
+                <th>Replies</th>
+                <th>Latest Activity</th>
+            </tr>
+            </thead>
+            <colgroup>
+                <col>
+                <col width="10%">
+                <col width="10%">
+                <col width="25%">
+            </colgroup>
+            <tbody>
+            <tr th:each="thread : ${threads}">
+                <td class="forum-title forum-title-upvotes">
+                    <div class="upvotes" th:value="${thread.upvotes}"></div>
+                    <div>
+                        <a th:href="${thread.getFriendlyUrl()}" th:text="${thread.title}"></a>
+                        <div class="meta">
+                            by <a th:href="@{'/player/' + ${thread.author.username}}" style="color: red" th:text="${thread.author.username}"></a>
+                            &bull;
+                            <time th:datetime="${thread.timestamp}" data-format="ago" data-toggle="tooltip"></time>
+                        </div>
+                    </div>
+                </td>
+                <td class="forum-stats" th:text="${thread.replies.size()}"></td>
+                <td class="forum-stats" th:text="${thread.replies.size()}"></td>
+                <td class="forum-latest">
+                    <div class="meta" th:if="${thread.lastReply == null}">No replies yet</div>
+                    <div th:if="${thread.lastReply != null}">
+                        by <a th:href="@{'/player/' + ${thread.lastReply.author.username}}" style="color: red;" th:text="${thread.lastReply.getAuthor().username}"></a>
+                        <div class="meta">
+                            <time th:datetime="${thread.lastReply.timestamp}" data-format="ago" data-toggle="tooltip"></time>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

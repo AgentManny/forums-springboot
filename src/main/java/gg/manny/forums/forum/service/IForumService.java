@@ -1,6 +1,7 @@
 package gg.manny.forums.forum.service;
 
 import gg.manny.forums.forum.Forum;
+import gg.manny.forums.forum.ForumCategory;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ public interface IForumService {
 
     /** Retrieves a forum by it's name, with it outputting */
     Forum getForum(String name);
+
+    List<ForumCategory> getSubForums();
 
     /**
      * Add a new forum by a display name which automatically

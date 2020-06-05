@@ -20,6 +20,7 @@ public class User {
     @Setter @Id @NonNull private UUID id;
 
     /** Returns the unique name of a user */
+    @Indexed(unique = true, direction = IndexDirection.DESCENDING)
     @Getter @Setter private String username;
 
     /** Returns the email address of a user */
@@ -55,6 +56,14 @@ public class User {
 
     // Todo get their active role -- or default when not active
     // todo add their active grant and prevent inactive (temporarily ones) from being active
+
+    /**
+     * Whether they are online on a server or not, sends data
+     * @return
+     */
+    public boolean isOnline() {
+        return true;
+    }
 
 
 }
