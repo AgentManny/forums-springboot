@@ -30,6 +30,9 @@ public class User {
     /** Returns an encrpyted (hash + salted) password  */
     @Getter @Setter private String password;
 
+    /** Returns the users ids that have been ignored */
+    private List<UUID> ignored = new ArrayList<>();
+
     /** Returns whether a user is registered or not */
     @Setter private boolean registered = false;
 
@@ -45,10 +48,19 @@ public class User {
     /** Returns the date upon the last login of a user */
     @Setter private Date dateLastSeen; // todo add a system to check if they are online or not
 
+    /** Returns any accounts connected to this user **/
+    private List<UUID> accounts = new ArrayList<>(); // These are able to be removed
+
     /** Returns a map of ip addresses and date used */
     private Map<Date, String> ipAddresses = new HashMap<>();
 
     private Map<String, Object> metaData = new HashMap<>(); // todo future use for external systems storing data
+
+    private boolean require2FA = false;
+    private boolean totpEnabled = false;
+    private String totpSecret;
+    private String lastTotpAddress;
+    private boolean authenticated;
 
     public void addGrant(Grant grant) {
         grants.add(grant);
@@ -56,8 +68,6 @@ public class User {
 
     // Todo get their active role -- or default when not active
     // todo add their active grant and prevent inactive (temporarily ones) from being active
-
-
 
     /**
      * Whether they are online on a server or not, sends data

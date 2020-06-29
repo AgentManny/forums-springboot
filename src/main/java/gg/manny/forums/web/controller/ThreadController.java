@@ -117,8 +117,6 @@ public class ThreadController {
         return createThread("", request); // Redirects to empty forum
     }
 
-
-
     @RequestMapping(value = "/thread/create/{id}", method = RequestMethod.GET)
     public ModelAndView createThread(@PathVariable String id, HttpServletRequest request) {
         ModelAndView modelAndView = new ModelAndView();

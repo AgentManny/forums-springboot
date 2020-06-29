@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
     @Autowired private BCryptPasswordEncoder encoder;
 
     public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email).orElse(null);
     }
 
     public User findUserByName(String name) {
@@ -54,7 +54,8 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = username.contains("@") ? userRepository.findByEmail(username) : userRepository.findByUsername(username);
+        User user = (username.contains("@") ? userRepository.findByEmail(username) : userRepository.findByUsernameIgnoreCase(username))
+                .orElse(null);
         if(user != null) {
             System.out.println("USER FROUND" + user.getUsername());
             List<GrantedAuthority> authorities = getUserAuthority(user.getGrants());

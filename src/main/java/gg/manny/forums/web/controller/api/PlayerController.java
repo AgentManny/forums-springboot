@@ -1,16 +1,23 @@
 package gg.manny.forums.web.controller.api;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonObject;
 import gg.manny.forums.Application;
 import gg.manny.forums.rank.RankRepository;
 import gg.manny.forums.user.User;
 import gg.manny.forums.user.UserRepository;
+import gg.manny.forums.util.UUIDs;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -19,21 +26,56 @@ public class PlayerController {
     @Autowired private UserRepository userRepository;
     @Autowired private RankRepository rankRepository;
 
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public String loadProfile(@PathVariable UUID id) {
+    @RequestMapping(value = "/api/player", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public String loadProfile(@RequestParam(required = false, defaultValue = "") String key, @RequestParam(required = false, defaultValue = "") String uuid, @RequestParam(required = false, defaultValue = "") String name, @RequestParam(required = false, defaultValue = "") String email) {
         JsonObject data = new JsonObject();
+        if (key.isEmpty() && !key.equals(Application.getApiKey())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No key provided"); // We it to NOT_FOUND to prevent people from finding this
+        }
 
-        User user = userRepository.findById(id).orElse(null);
-        data.addProperty("success", user != null);
+        Optional<User> user;
+        if (!uuid.isEmpty()) {
+            UUID matchedId = UUIDs.parse(uuid);
+            if (matchedId == null) {
+                return generateCause("Malformed UUID");
+            }
 
-        JsonObject playerData = new JsonObject();
-        if (user != null) {
-            playerData.addProperty("id", id.toString());
-            playerData.addProperty("username", user.getUsername());
+            user = userRepository.findById(matchedId);
+        } else if (!name.isEmpty()) {
+            user = userRepository.findByUsernameIgnoreCase(name);
+        } else if (!email.isEmpty()) {
+            user = userRepository.findByEmail(email);
+        } else {
+            return generateCause("No 'name' or 'uuid' or 'email' field");
+        }
+
+        data.addProperty("success", user.isPresent());
+
+        JsonObject playerData;
+        try {
+            playerData = user.isPresent() ? Application.GSON.fromJson(new ObjectMapper().writeValueAsString(user.get()), JsonObject.class) : null;
+            if (playerData != null) {
+                if (email.isEmpty()) {
+                    playerData.remove("email");
+                }
+                playerData.remove("password");
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to deserialize player data of " + user.get().getUsername());
         }
 
         data.add("player", playerData);
-        return Application.GSON.toJson(data);
+        return Application.PLAIN_GSON.toJson(data);
+    }
+
+    private String generateCause(String cause) {
+        JsonObject data = new JsonObject();
+        data.addProperty("success", false);
+        if (cause != null) {
+            data.addProperty("cause", cause);
+        }
+        return Application.PLAIN_GSON.toJson(data);
     }
 
 }

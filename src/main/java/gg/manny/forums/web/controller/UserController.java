@@ -23,7 +23,6 @@ public class UserController {
     @Autowired private UserService userService;
     @Autowired private RankRepository rankRepository;
 
-
     @RequestMapping(value = "/player/{id}", method = RequestMethod.GET)
     public ModelAndView getPlayer(@PathVariable String id) {
         ModelAndView modelAndView = new ModelAndView("player");

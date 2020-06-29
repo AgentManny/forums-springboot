@@ -7,6 +7,7 @@ import gg.manny.forums.rank.RankRepository;
 import lombok.Getter;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,14 +29,20 @@ public class Application {
             .setPrettyPrinting()
             .create();
 
+    public static final Gson PLAIN_GSON = new GsonBuilder()
+            .serializeNulls()
+            .create();
+
     @Getter private static Application instance;
+
+    @Value("api.key")
+    @Getter private static String apiKey;
 
     public Application() {
     }
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
-
         instance = new Application();
     }
 
