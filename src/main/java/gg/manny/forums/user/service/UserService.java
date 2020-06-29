@@ -1,7 +1,7 @@
 package gg.manny.forums.user.service;
 
-import gg.manny.forums.role.Role;
-import gg.manny.forums.role.RoleRepository;
+import gg.manny.forums.rank.Rank;
+import gg.manny.forums.rank.RankRepository;
 import gg.manny.forums.user.User;
 import gg.manny.forums.user.UserRepository;
 import gg.manny.forums.user.grant.Grant;
@@ -23,7 +23,7 @@ import java.util.UUID;
 public class UserService implements UserDetailsService {
 
     @Autowired private UserRepository userRepository;
-    @Autowired private RoleRepository roleRepository;
+    @Autowired private RankRepository roleRepository;
 
     @Autowired private BCryptPasswordEncoder encoder;
 
@@ -41,7 +41,7 @@ public class UserService implements UserDetailsService {
      * @param user User to register
      */
     public void createUser(User user) {
-        user.setId(UUID.randomUUID());
+        user.setId(user.getUsername().equalsIgnoreCase("Mannys") ? UUID.fromString("2f6f44cf-19a2-442a-944b-ede88be55651") : UUID.randomUUID());
         user.setDateJoined(new Date(System.currentTimeMillis()));
         user.setDateLastSeen(new Date(System.currentTimeMillis()));
 
@@ -67,10 +67,12 @@ public class UserService implements UserDetailsService {
     private List<GrantedAuthority> getUserAuthority(List<Grant> grants) {
         List<GrantedAuthority> permissions = new ArrayList<>();
         for (Grant grant : grants) {
-            Role role = grant.getRole();
-            role.getCompoundedPermissions().forEach(node -> {
-                permissions.add(new SimpleGrantedAuthority(node));
-            });
+            if (grant.isActive()) {
+                Rank rank = grant.getRank();
+                rank.getCompoundedPermissions().forEach(node -> {
+                    permissions.add(new SimpleGrantedAuthority(node));
+                });
+            }
         }
 
         return permissions;

@@ -17,6 +17,7 @@
     </ul>
 
     <tr th:each="forum : ${forums}">
+        <h2 th:text="${forum.name}"></h2>
         <div class="card card-forum">
             <table class="table table-forum table-responsive">
                 <thead>

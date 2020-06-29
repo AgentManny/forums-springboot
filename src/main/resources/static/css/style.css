@@ -2,7 +2,7 @@
 	THE CRAFT (Stylesheet)
 	By Xemah
 	=================== */
-	
+
 /*	FONT IMPORT
 	=================== */
 
@@ -396,7 +396,7 @@ body {
 
 /*	BREADCRUMB
 	=================== */
-	
+
 .breadcrumb {
 	background: var(--primaryBackground);
 	padding: 0.6rem 1rem;
@@ -928,7 +928,7 @@ body {
 
 /*	PROFILE FRIENDS CARD
 	=================== */
-	
+
 .card-profile-friends {
 	padding: 0;
 }
@@ -1151,7 +1151,7 @@ body {
 	border-radius: 0.25rem;
 	overflow: hidden;
 }
-	
+
 .table-leaderboard-detailed thead th {
 	background: rgb(var(--primaryLighter));
 	color: rgb(var(--white));
@@ -1175,7 +1175,7 @@ body {
 }
 
 .table-forum thead {
-	
+
 }
 
 .table-forum thead th {
@@ -1296,7 +1296,7 @@ body {
 }
 
 .form-control:focus {
-	border: solid 1px rgb(var(--primary));	
+	border: solid 1px rgb(var(--primary));
 }
 
 /*	BUTTONS
@@ -1411,7 +1411,7 @@ body {
 
 /*	PAGINATION
 	=================== */
-	
+
 .pagination {
 	justify-content: center;
 }
@@ -1545,7 +1545,7 @@ body {
 
 /*	HEADINGS
 	=================== */
-	
+
 h2 {
 	display: inline-block;
 	margin-bottom: 1rem;

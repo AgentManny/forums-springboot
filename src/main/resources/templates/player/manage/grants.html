@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="grants">
+    <ul class="tab-item nav nav-tabs">
+    </ul>
+</div>
+<div class="block">
+    <ul class="nav gamemode-item">
+        <li class="nav-item">
+            <a href="/u/Mannys/uhc" class="nav-link ">
+                UHC
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/u/Mannys/practice" class="nav-link active">
+                Practice
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/u/Mannys/bunkers" class="nav-link ">
+                Bunkers
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/u/Mannys/meetup" class="nav-link ">
+                Meetup
+            </a>
+        </li>
+        </li>
+    </ul>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Create a grant</button>
+
+    <div class="alert alert-danger" th:if="${!user.grants.isEmpty()}">
+        <i class="fas fa-times-circle fa-fw"></i> This player doesn't have any grants
+    </div>
+
+    <div class="card-body" th:if="${user.grants.isEmpty()}">
+        <table class="table">
+            <thead class="table-dark">
+            <tr>
+                <td>Status</td>
+                <td>Rank</td>
+                <td>Issued by</td>
+                <td>Reason</td>
+                <td>Created</td>
+                <td>Expires at</td>
+                <td>Edit</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <a href="/grant/53707">
+                        <span class="badge badge-success">Active</span>
+                    </a>
+                </td>
+                <td>
+                    <a style="color: #666" href="/grant/53707">
+                        trial-owner
+                    </a>
+                </td>
+                <td>
+                    <a style="color: #ff1940" href="/grant/53707">
+                        Mannys
+                    </a>
+                </td>
+                <td>
+                    <a style="color: #666" href="/grant/53707">
+                        U r now trial owner
+                    </a>
+                </td>
+                <td><time datetime="1567879782501" data-format="ago" data-toggle="tooltip"></time></td>
+                <td>Never</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

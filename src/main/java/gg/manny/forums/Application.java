@@ -2,8 +2,8 @@ package gg.manny.forums;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import gg.manny.forums.role.Role;
-import gg.manny.forums.role.RoleRepository;
+import gg.manny.forums.rank.Rank;
+import gg.manny.forums.rank.RankRepository;
 import lombok.Getter;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -33,10 +33,6 @@ public class Application {
     public Application() {
     }
 
-    public void test() {
-
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
 
@@ -52,12 +48,12 @@ public class Application {
     }
 
     @Bean
-    CommandLineRunner init(RoleRepository roleRepository) {
+    CommandLineRunner init(RankRepository roleRepository) {
 
         return args -> {
 
             if (!roleRepository.findById("default").isPresent()) {
-                Role userRole = new Role();
+                Rank userRole = new Rank();
                 userRole.setId("default");
                 userRole.setName("Default");
                 userRole.setColor("#ffff");
@@ -66,7 +62,7 @@ public class Application {
             }
 
             if (!roleRepository.findById("admin").isPresent()) {
-                Role adminRole = new Role();
+                Rank adminRole = new Rank();
                 adminRole.setId("admin");
                 adminRole.setName("Admin");
                 adminRole.setColor("#4444");

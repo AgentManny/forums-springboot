@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="grants_add">
+    <div class="season-selection">
+        <a class="season-selection-item" th:classappend="${section} == 'grants_add' ? 'active' : ''" th:href="'/player/' + ${user.username} + '/grants/create'">New</a>
+    </div>
+    <div class="card card-body">
+        <form th:action="@{'/player/' + ${user.username} + '/grants/create'}" method="post">
+        </form>
+    </div>
+</div>
+</body>
+</html>

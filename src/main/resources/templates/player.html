@@ -14,21 +14,49 @@
     <div class="row">
         <div class="col-md-4 col-lg-3">
             <div class="card card-profile">
-                <div class="card-header">??? (NEVER PLAYED)</div>
-            <div class="card-body">
-                <div class="player-avatar">
-                    <img th:src="@{'https://crafatar.com/renders/body/' + ${currentUser.id.toString()} + '?overlay'}">
+                <div class="card-header" th:style="'background: ' + ${user.online ? '#31de28' : '#C62828'} + ';'">
+                    <strong th:text="${user.online ? 'Online' : 'Offline'}"></strong>
+                    <div th:if="${user.online}" th:text="'Playing on' + ${user.lastServer}"></div>
+                    <div th:if="${!user.online}">
+                        Last seen
+                        <time th:datetime="${user.dateLastSeen.getTime()}" data-format="ago" data-toggle="tooltip"></time>
+                    </div>
                 </div>
-                <div class="player-username">
-                    Mannys
+                <div class="card-body">
+                    <div class="player-avatar">
+                        <img th:src="@{'https://crafatar.com/renders/body/' + ${user.id.toString()} + '?overlay'}">
+                    </div>
+                    <div class="player-username">
+                        <strong class="player-username" th:text="${user.username}"></strong>
+                    </div>
+                    <div class="player-rank" style="color: darkred">
+                        Trial Owner
+                    </div>
                 </div>
-                <div class="player-rank" style="color: darkred">
-                    Trial Owner
-                </div>
-            </div>
             </div>
         </div>
+
+        <div class="col-md-8 col-lg-9">
+            <div class="card-body">
+                <ul class="nav nav-pills nav-fill">
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${page} == 'general' ? 'active' : ''" th:href="'/player/' + ${user.username}">General</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${page} == 'stats' ? 'active' : ''" th:href="'/player/' + ${user.username} + '/stats'">Statistics</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${page} == 'forums' ? 'active' : ''" th:href="'/player/' + ${user.username} + '/threads'">Forums</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${page} == 'manage' ? 'active' : ''" th:href="'/player/' + ${user.username} + '/grants'">Manage</a>
+                    </li>
+                </ul>
+            </div>
+            <div th:replace="'/player/' + ${page} :: ${page}"></div>
+        </div>
     </div>
+</div>
 </div>
 </body>
 </html>

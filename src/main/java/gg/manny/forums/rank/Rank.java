@@ -1,4 +1,4 @@
-package gg.manny.forums.role;
+package gg.manny.forums.rank;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Getter
 @Document(collection = "roles")
-public class Role implements Comparable<Role> {
+public class Rank implements Comparable<Rank> {
 
     @Autowired private MongoTemplate mongoTemplate;
 
@@ -45,7 +45,7 @@ public class Role implements Comparable<Role> {
     private List<String> permissions = new ArrayList<>();
 
     /** Returns roles that are subsidiaries of parent role */
-    @DBRef private List<Role> inherits = new ArrayList<>();
+    @DBRef private List<Rank> inherits = new ArrayList<>();
 
     /**
      * Display name that contains the name of the role and the color
@@ -64,7 +64,7 @@ public class Role implements Comparable<Role> {
      */
     public List<String> getCompoundedPermissions() {
         List<String> toReturn = new ArrayList<>(this.permissions);
-        for (Role inheritedRole : getInheritedRoles()) {
+        for (Rank inheritedRole : getInheritedRoles()) {
             toReturn.addAll(inheritedRole.getCompoundedPermissions());
         }
         return toReturn;
@@ -90,12 +90,12 @@ public class Role implements Comparable<Role> {
         permissions.add(node);
     }
 
-    public List<Role> getInheritedRoles() {
+    public List<Rank> getInheritedRoles() {
         return inherits;
     }
 
     @Override
-    public int compareTo(Role role) {
+    public int compareTo(Rank role) {
         return role.getWeight() - this.getWeight();
     }
 }

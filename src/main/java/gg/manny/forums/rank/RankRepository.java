@@ -1,4 +1,4 @@
-package gg.manny.forums.role;
+package gg.manny.forums.rank;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface RoleRepository extends MongoRepository<Role, String> {
+public interface RankRepository extends MongoRepository<Rank, String> {
 
     /**
      * Fetches a role by it's name or identification    
@@ -14,8 +14,8 @@ public interface RoleRepository extends MongoRepository<Role, String> {
      *
      * @return Role that matches the criteria name
      */
-    Role findByName(String name);
+    Rank findByName(String name);
 
     @Override
-    Optional<Role> findById(String id);
+    Optional<Rank> findById(String id);
 }

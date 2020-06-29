@@ -109,20 +109,22 @@ $('#input-searchPlayer').focusout(function() {
 
 });
 
+
+
 $('#input-searchPlayer').keyup(function() {
 
 	if (typeof playerProfileRedirect !== "undefined") {
 		clearTimeout(playerProfileRedirect);
 	}
-	
+
 	if ($(this).val().length < 2) {
 		$('#dropdown-searchPlayer #dropdown-toggle').dropdown('hide');
 		return;
 	};
-	
+
 	let typed = $(this).val();
 
-	$.getJSON('http://158.69.23.6:8080/player/search?value=' + typed, function(data) {
+	$.getJSON('/search-autocomplete?query=' + typed, function(data) {
 
 		let suggestions = Object.keys(data);
 
@@ -134,7 +136,7 @@ $('#input-searchPlayer').keyup(function() {
 			let letters = item.split('');
 			let username = ''
 			for (let i = 0; i < letters.length; i++) {
-				
+
 				let typedPos = item.toLowerCase().indexOf(typed.toLowerCase());
 				console.log(typedPos);
 				if (i >= typedPos && i < (typedPos + typed.length)) {
@@ -144,14 +146,15 @@ $('#input-searchPlayer').keyup(function() {
 				}
 			}
 
-			dropdownItems += '<a class="dropdown-item" href="' + siteURL + 'player/' + item + '">' + username + '</a>';
+			dropdownItems += '<div><img src="https://crafatar.com/avatars/b519c702-1b77-4675-87f2-34bbcbdd6e20?size=24&overlay"</img>' + '<a class="dropdown-item" href="/player/' + item + '">' +
+				username + '</a></div>';
 
 
 		});
 
 		if (suggestions.length == 1) {
 			var playerProfileRedirect = setTimeout(function() {
-				window.location.replace(siteURL + 'player/' + suggestions[0]);
+				window.location = '/player/' + suggestions[0];
 			}, 1500);
 		};
 

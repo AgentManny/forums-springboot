@@ -57,12 +57,18 @@ public class User {
     // Todo get their active role -- or default when not active
     // todo add their active grant and prevent inactive (temporarily ones) from being active
 
+
+
     /**
      * Whether they are online on a server or not, sends data
      * @return
      */
     public boolean isOnline() {
-        return true;
+        return false;
+    }
+
+    public String getLastServer() {
+        return "HG-01";
     }
 
 

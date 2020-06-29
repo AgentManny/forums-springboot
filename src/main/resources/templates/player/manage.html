@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+<div th:fragment="manage">
+        <div class="card-body">
+            <ul class="nav nav-pills nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${section} == 'grants' ? 'active' : ''" th:href="'/player/' + ${user.username} + '/grants'">Grants</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${section} == 'punishments' ? 'active' : ''" th:href="'/player/' + ${user.username} + '/punishments'">Punishments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${section} == 'identity' ? 'active' : ''" th:href="'/player/' + ${user.username} + '/modify'">Modify</a>
+                </li>
+            </ul>
+        </div>
+
+
+    <div th:replace="'/player/manage/' + ${section} :: ${section}"></div>
+
+</div>
+</body>
+</html>
