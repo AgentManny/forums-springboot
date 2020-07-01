@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 import java.util.UUID;
+
+import static gg.manny.forums.web.controller.api.RankController.AUTH_HEADER;
 
 @RestController
 public class PlayerController {
@@ -27,11 +30,17 @@ public class PlayerController {
     @Autowired private RankRepository rankRepository;
 
     @RequestMapping(value = "/api/player", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String loadProfile(@RequestParam(required = false, defaultValue = "") String key, @RequestParam(required = false, defaultValue = "") String uuid, @RequestParam(required = false, defaultValue = "") String name, @RequestParam(required = false, defaultValue = "") String email) {
-        JsonObject data = new JsonObject();
-        if (key.isEmpty() || !key.equals(Application.getApiKey())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No key provided"); // We it to NOT_FOUND to prevent people from finding this
+    public String loadProfile(
+            @RequestParam(required = false, defaultValue = "") String uuid,
+            @RequestParam(required = false, defaultValue = "") String name,
+            @RequestParam(required = false, defaultValue = "") String email,
+            HttpServletRequest request) {
+        String key = request.getHeader(AUTH_HEADER);
+        if (key == null || !key.equals(Application.getApiKey())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No key provided");
         }
+
+        JsonObject data = new JsonObject();
 
         Optional<User> user;
         if (!uuid.isEmpty()) {
