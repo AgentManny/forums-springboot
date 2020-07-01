@@ -33,6 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetailsService userDetailsService = mongoUserDetails();
         auth
                 .userDetailsService(userDetailsService)
+
                 .passwordEncoder(bCryptPasswordEncoder);
 
     }
@@ -42,6 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/**").permitAll()
+                .antMatchers("/api/**").permitAll()
 //                .antMatchers("/login").permitAll()
 //                .antMatchers("/register").permitAll()
 //                .antMatchers("/forums/**").permitAll()
@@ -57,6 +59,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/").and().exceptionHandling();
+
+        http.csrf()
+                .ignoringAntMatchers("/api/**"); // Prevent csrf from interfering with /api/
     }
 
     @Override
@@ -64,5 +69,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**");
+
     }
 }

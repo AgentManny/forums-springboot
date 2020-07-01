@@ -41,6 +41,15 @@ public class LoginController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/reset", method = RequestMethod.GET)
+    public ModelAndView reset() {
+        ModelAndView modelAndView = new ModelAndView();
+        User user = new User();
+        modelAndView.addObject("user", user);
+        modelAndView.setViewName("reset");
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();

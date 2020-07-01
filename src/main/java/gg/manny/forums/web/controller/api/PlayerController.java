@@ -29,7 +29,7 @@ public class PlayerController {
     @RequestMapping(value = "/api/player", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public String loadProfile(@RequestParam(required = false, defaultValue = "") String key, @RequestParam(required = false, defaultValue = "") String uuid, @RequestParam(required = false, defaultValue = "") String name, @RequestParam(required = false, defaultValue = "") String email) {
         JsonObject data = new JsonObject();
-        if (key.isEmpty() && !key.equals(Application.getApiKey())) {
+        if (key.isEmpty() || !key.equals(Application.getApiKey())) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No key provided"); // We it to NOT_FOUND to prevent people from finding this
         }
 
@@ -69,7 +69,7 @@ public class PlayerController {
         return Application.PLAIN_GSON.toJson(data);
     }
 
-    private String generateCause(String cause) {
+    public static String generateCause(String cause) {
         JsonObject data = new JsonObject();
         data.addProperty("success", false);
         if (cause != null) {

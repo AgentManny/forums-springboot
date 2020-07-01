@@ -36,7 +36,7 @@ public class Application {
     @Getter private static Application instance;
 
     @Value("api.key")
-    @Getter private static String apiKey;
+    @Getter private static String apiKey = "SPOOKY";
 
     public Application() {
     }
@@ -58,24 +58,16 @@ public class Application {
     CommandLineRunner init(RankRepository roleRepository) {
 
         return args -> {
-
             if (!roleRepository.findById("default").isPresent()) {
-                Rank userRole = new Rank();
-                userRole.setId("default");
-                userRole.setName("Default");
-                userRole.setColor("#ffff");
-                userRole.setWeight(-1);
-                roleRepository.save(userRole);
-            }
-
-            if (!roleRepository.findById("admin").isPresent()) {
-                Rank adminRole = new Rank();
-                adminRole.setId("admin");
-                adminRole.setName("Admin");
-                adminRole.setColor("#4444");
-                adminRole.setWeight(Integer.MAX_VALUE);
-                adminRole.addPermission("permission.dashboard");
-                roleRepository.save(adminRole);
+                Rank defaultRank = new Rank();
+                defaultRank.setId("default");
+                defaultRank.setName("Default");
+                defaultRank.setColor("&f");
+                defaultRank.setWeight(Integer.MAX_VALUE);
+                defaultRank.setDisplayOrder(-1);
+                defaultRank.setDefaultRank(true);
+                roleRepository.save(defaultRank);
+                System.out.println("Added default rank");
             }
         };
 

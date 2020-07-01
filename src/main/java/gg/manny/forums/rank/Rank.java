@@ -1,24 +1,29 @@
 package gg.manny.forums.rank;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.primitives.Ints;
+import gg.manny.forums.rank.json.RankListDeserializer;
+import gg.manny.forums.rank.json.RankListSerializer;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Getter
 @Document(collection = "roles")
-public class Rank implements Comparable<Rank> {
+public class Rank {
 
-    @Autowired private MongoTemplate mongoTemplate;
+    public static final Comparator<Rank> GENERAL_WEIGHT_COMPARATOR = (a, b) -> Ints.compare(b.getWeight(), a.getWeight());
+    public static final Comparator<Rank> DISPLAY_WEIGHT_COMPARATOR = (a, b) -> Ints.compare(b.getDisplayOrder(), a.getDisplayOrder());
 
     /** Returns the id of a role, it doesn't include spaces or capitalization **/
     @Id @NonNull @Setter private String id;
@@ -27,11 +32,20 @@ public class Rank implements Comparable<Rank> {
     @Indexed(unique = true, direction = IndexDirection.DESCENDING)
     @Setter private String name;
 
+    /** Returns the order of a role, this sorts roles into hierarchy order for viewing */
+    @Setter private int displayOrder = -1;
+
+    /** Returns if the rank is a default rank which is assigned to users on creations **/
+    @Setter private boolean defaultRank = false;
+
+    /** Returns if the rank should be visible on the user's profile **/
+    @Setter private boolean hidden = false;
+
     /** Returns the prefix of a role */
     @Setter private String prefix = "";
 
     /** Returns the color of a role, it uses hex color codes otherwise will return without a colour */
-    @Setter private String color = "#ffff";
+    @Setter private String color = "&f";
 
     /** Returns the weight of a role, this sorts roles into hierarchy order */
     @Setter private int weight = -1;
@@ -45,15 +59,20 @@ public class Rank implements Comparable<Rank> {
     private List<String> permissions = new ArrayList<>();
 
     /** Returns roles that are subsidiaries of parent role */
+    @JsonSerialize(using = RankListSerializer.class)
+    @JsonDeserialize(using = RankListDeserializer.class)
     @DBRef private List<Rank> inherits = new ArrayList<>();
 
-    /**
-     * Display name that contains the name of the role and the color
-     *
-     * @return Coloured display name
-     */
-    public String getDisplayName() {
-        return color + name;
+    public void sync(Rank newRank) {
+        this.name = newRank.name;
+        this.displayOrder = newRank.displayOrder;
+        this.defaultRank = newRank.defaultRank;
+        this.hidden = newRank.hidden;
+        this.prefix = newRank.prefix;
+        this.color = newRank.color;
+        this.weight = newRank.weight;
+        this.permissions = newRank.permissions;
+        this.inherits = newRank.inherits;
     }
 
     /**
@@ -64,7 +83,7 @@ public class Rank implements Comparable<Rank> {
      */
     public List<String> getCompoundedPermissions() {
         List<String> toReturn = new ArrayList<>(this.permissions);
-        for (Rank inheritedRole : getInheritedRoles()) {
+        for (Rank inheritedRole : this.inherits) {
             toReturn.addAll(inheritedRole.getCompoundedPermissions());
         }
         return toReturn;
@@ -90,12 +109,4 @@ public class Rank implements Comparable<Rank> {
         permissions.add(node);
     }
 
-    public List<Rank> getInheritedRoles() {
-        return inherits;
-    }
-
-    @Override
-    public int compareTo(Rank role) {
-        return role.getWeight() - this.getWeight();
-    }
 }

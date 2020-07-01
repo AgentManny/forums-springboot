@@ -5,6 +5,7 @@ import gg.manny.forums.forum.repository.CategoryRepository;
 import gg.manny.forums.forum.repository.ForumRepository;
 import gg.manny.forums.forum.repository.ThreadRepository;
 import gg.manny.forums.forum.service.impl.ForumService;
+import gg.manny.forums.user.User;
 import gg.manny.forums.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 public class ForumController {
+
+    public static boolean FORUMS_DISABLED = true; // TEMP
+    public static String FORUM_DISABLED_MESSAGE = "Forums are currently disabled. Please check back later.";
 
     @Autowired
     private UserService userService;
@@ -34,7 +40,9 @@ public class ForumController {
     private ThreadRepository threadRepository;
 
     @RequestMapping(value = "/forums/{id}", method = RequestMethod.GET)
-    public ModelAndView forumCategory(@PathVariable String id) {
+    public ModelAndView forumCategory(@PathVariable String id, HttpServletRequest request) {
+
+        if ((User) request.getSession().getAttribute("user") == null && FORUMS_DISABLED) throw new ResponseStatusException(HttpStatus.FORBIDDEN, FORUM_DISABLED_MESSAGE);
         ModelAndView modelAndView = new ModelAndView("forums/forum");
         ForumCategory subForum = categoryRepository.findById(id).orElse(null);
         if (subForum != null) {
@@ -49,7 +57,8 @@ public class ForumController {
     }
 
     @RequestMapping(value = "/forums", method = RequestMethod.GET)
-    public ModelAndView home() {
+    public ModelAndView home(HttpServletRequest request) {
+        if ((User) request.getSession().getAttribute("user") == null && FORUMS_DISABLED) throw new ResponseStatusException(HttpStatus.FORBIDDEN, FORUM_DISABLED_MESSAGE);
         ModelAndView modelAndView = new ModelAndView("forums");
         modelAndView.addObject("forums", forumRepository.findAll());
         return modelAndView;

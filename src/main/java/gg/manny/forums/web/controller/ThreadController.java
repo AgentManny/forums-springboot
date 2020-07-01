@@ -131,9 +131,7 @@ public class ThreadController {
 
         User user = (User) request.getSession().getAttribute("user");
         if (user == null) {
-            throw new ResponseStatusException(
-                    HttpStatus.FORBIDDEN, "User not logged in" // todo We should also re-direct to /login/
-            );
+            return new ModelAndView("redirect:/login?redirect=/thread/create/" + id);
         }
 
         modelAndView.addObject("id", id);
